@@ -1,0 +1,12 @@
+version: '3'
+services:
+  homeassistant:
+    container_name: dwp-homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - ./config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    networks:
+      - host
