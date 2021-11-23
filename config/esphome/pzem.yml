@@ -1,0 +1,68 @@
+esphome:
+  name: switch
+  platform: ESP8266
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: "*"
+
+wifi:
+  ssid: "ssid"
+  password: "pass"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Switch Fallback Hotspot"
+    password: "*"
+
+captive_portal:
+
+uart:
+  tx_pin: D1
+  rx_pin: D2
+  baud_rate: 9600
+  # stop_bits: 2
+
+sensor:
+  - platform: pzemac
+    update_interval: 1s
+    current:
+      name: "${esp_name} A"
+      #filters:
+      #- calibrate_linear:
+      # Map from sensor -> measured value
+      #    - 0.0 -> 0.0
+      #    - 1.231 -> 2.695
+      #    - 1.606 -> 3.651
+      #    - 1.928 -> 4.920
+    voltage:
+      name: "${esp_name} V"
+    power:
+      name: "${esp_name} W"
+      unit_of_measurement: W
+      id: "${esp_name}_W"
+      icon: mdi:flash-outline
+      filters:
+       - calibrate_linear:
+       # Map from sensor -> measured value
+          - 0.0 -> 0.0
+          - 256.0 -> 248.0
+          - 662.0 -> 642.0
+          - 1050.0 -> 1030.0
+       - lambda: if (x < 5.0) return 0.0; else return x;
+    frequency:
+      name: "${esp_name} Hz"
+    power_factor:
+      name: "${esp_name} Pf"
+    energy:
+      name: "${esp_name} kWh"
+      filters:
+        # Multiplication factor from Wh to kWh is 0.001
+        - multiply: 0.001
+      unit_of_measurement: kWh
