@@ -1,0 +1,55 @@
+esphome:
+  name: switch
+  platform: ESP8266
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: "*"
+
+wifi:
+  ssid: "ssid"
+  password: "pass"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Switch Fallback Hotspot"
+    password: "*"
+
+captive_portal:
+
+switch:
+  - platform: gpio
+    pin: 12
+    name: "Garage Door Open Switch"
+    id: open_switch
+  - platform: gpio
+    pin: 13
+      # number: 17
+    name: "Garage Door Close Switch"
+    id: close_switch
+cover:
+  - platform: template
+    name: "Garage Door"
+    open_action:
+      # Cancel any previous action
+      - switch.turn_off: close_switch
+      # Turn the OPEN switch on briefly
+      - switch.turn_on: open_switch
+      - delay: 0.1s
+      - switch.turn_off: open_switch
+    close_action:
+      - switch.turn_off: open_switch
+      - switch.turn_on: close_switch
+      - delay: 0.1s
+      - switch.turn_off: close_switch
+    stop_action:
+      - switch.turn_off: close_switch
+      - switch.turn_off: open_switch
+    optimistic: true
+    assumed_state: true
