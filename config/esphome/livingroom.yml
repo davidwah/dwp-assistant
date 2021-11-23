@@ -1,0 +1,39 @@
+esphome:
+  name: livingroom
+  platform: ESP8266
+  board: nodemcuv2
+
+    
+binary_sensor:
+  - platform: gpio
+    name: "Living Room Window"
+    pin:
+      number: 15
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  safe_mode: true
+  password: "*"
+
+#ota:
+#  password: "4d221b48c3fee9516f085e1cf5eaac92"
+
+wifi:
+  ssid: "ssid"
+  password: "pass"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+#  ap:
+#    ssid: "Little Fallback Hotspot"
+#    password: "TpKz043APBmo"
+
+captive_portal:
