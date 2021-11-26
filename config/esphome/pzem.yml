@@ -65,4 +65,4 @@ sensor:
       filters:
         # Multiplication factor from Wh to kWh is 0.001
         - multiply: 0.001
-      unit_of_measurement: kWh
+      unit_of_measurement: kWh 
