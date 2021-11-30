@@ -22,4 +22,13 @@
   ntpServer1 0.asia.pool.ntp.org
   timezone 7
   ``` 
-7. Reboot Nodemcu
+7. Reboot Nodemcu  
+
+
+
+If show value after boot Nodemcu, reset value with the command
+```
+EnergyTotal 0
+EnergyToday 0
+EnergyYesterday 0
+```
