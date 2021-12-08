@@ -1,0 +1,75 @@
+default_config:
+
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrech
+    url: http://<ip>:3218/
+    require_admin: true
+
+  nodered:
+    title: Node-Red
+    icon: mdi:shuffle-variant
+    url: http://<ip>:1880/
+    require_admin: true
+
+mqtt:
+  broker: <ip>
+#  broker: "core-mosquitto"
+  username: dwp
+  password: dwp11
+  port: 1883
+
+sensor:
+  # PZEM01
+  - platform: mqtt
+    name: "Voltage"
+    state_topic: "tele/node/SENSOR"
+    value_template: "{{ value_json['ENERGY']['Voltage'] | int + 123 }}"
+    unit_of_measurement: "V"
+    icon: mdi:flash
+  - platform: mqtt
+    name: "Current"
+    state_topic: "tele/node/SENSOR"
+    value_template: "{{ value_json['ENERGY'].Current | float + 123 }}"
+    unit_of_measurement: "A"
+    icon: mdi:power-socket
+  - platform: mqtt
+    name: "Power"
+    state_topic: "tele/node/SENSOR"
+    value_template: "{{ value_json['ENERGY'].Power }}"
+    unit_of_measurement: "W"
+    icon: mdi:power-plug
+  - platform: mqtt
+    name: "Power Factor"
+    state_topic: "tele/node/SENSOR"
+    value_template: "{{ value_json['ENERGY'].Factor }}"
+    icon: mdi:percent
+  - platform: mqtt
+    name: "Energy Today"
+    state_topic: "tele/node/SENSOR"
+    value_template: "{{ value_json['ENERGY'].Today }}"
+    unit_of_measurement: "kWh"
+    icon: mdi:calendar-today
+  - platform: mqtt
+    name: "Energy Yesterday"
+    state_topic: "tele/node/SENSOR"
+    value_template: "{{ value_json['ENERGY'].Yesterday }}"
+    unit_of_measurement: "kWh"
+    icon: mdi:calendar-today
+  - platform: mqtt
+    name: "Energy Total"
+    state_topic: "tele/node/SENSOR"
+    value_template: "{{ value_json['ENERGY'].Total }}"
+    unit_of_measurement: "kWh"
+    icon: mdi:calendar-blank
+  - platform: mqtt
+    name: "Tarif kWh"
+    state_topic: "tele/node/SENSOR"
+    value_template: "{{ value_json['ENERGY'].Power | int * 1600 }}"
+    unit_of_measurement: "Rp/kWh"
+    icon: mdi:power-socket
+
+recorder:
+  db_url: mysql://homeassistant:<ha_dbdatabasepassword>@<ip>/ha_db?charset=utf8
+  purge_keep_days: 30
