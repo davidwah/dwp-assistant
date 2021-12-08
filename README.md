@@ -15,5 +15,3 @@ date
 2. create docker compose to run home-assistant on container
 
 3. create config file `configuration.yml`
-
-4. 
